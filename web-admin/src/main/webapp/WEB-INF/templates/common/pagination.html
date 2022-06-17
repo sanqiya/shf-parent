@@ -18,8 +18,8 @@
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
                 <li class="paginate_button previous" th:if="${!page.isFirstPage}"><a
-                        href="javascript:document.forms.ec.pageNum.value=1;document.forms.ec.submit();">第一页</a></li>
-                <li class="paginate_button previous" th:if="${page.isFirstPage}"><a href="javascript:">第一页</a></li>
+                        href="javascript:document.forms.ec.pageNum.value=1;document.forms.ec.submit();">首页</a></li>
+                <li class="paginate_button previous" th:if="${page.isFirstPage}"><a href="javascript:">首页</a></li>
                 <li class="paginate_button previous" th:if="${!page.isFirstPage}"><a
                         th:href="'javascript:document.forms.ec.pageNum.value='+${page.prePage}+';document.forms.ec.submit();'">上一页</a>
                 </li>
