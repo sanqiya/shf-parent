@@ -1,5 +1,6 @@
 package com.atguigu.controller;
 
+import com.atguigu.base.BaseController;
 import com.atguigu.entity.Role;
 import com.atguigu.service.RoleService;
 import com.github.pagehelper.PageInfo;
@@ -20,7 +21,7 @@ import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController {
 
 
 
@@ -30,7 +31,6 @@ public class RoleController {
    private final static String PAGE_INDEX = "role/index";
    private static final String PAGE_CREATE ="role/create";
    private static final String ACTION_LIST = "redirect:/role";
-   private static final String PAGE_SUCCESS ="common/successPage";
    private final static String PAGE_EDIT = "role/edit";
 
 
@@ -50,18 +50,15 @@ public class RoleController {
    }
 
    @RequestMapping("/update")
-   public String update(Role role,Map map) {
+   public String update(Role role,Map map,HttpServletRequest request) {
       roleService.update(role);
-      map.put("messagePage","修改成功，关机吧");
-      return PAGE_SUCCESS;
+      return this.successPage("修改成功，关机吧",request);
    }
 
    @RequestMapping("/save")
-   public String save(Role role, Map map) {
+   public String save(Role role, Map map,HttpServletRequest request) {
       Integer count = roleService.insert(role);
-      map.put("messagePage","添加成功，关机吧");
-//      return ACTION_LIST;
-      return PAGE_SUCCESS;
+      return this.successPage("添加成功，关机吧",request);
    }
 
 //   @RequestMapping
@@ -87,35 +84,6 @@ public class RoleController {
       model.addAttribute("page", page);
       model.addAttribute("filters", filters);
       return PAGE_INDEX;
-   }
-
-   /**
-    * 封装页面提交的分页参数及搜索条件
-    * @param request
-    * @return
-    */
-   private Map<String, Object> getFilters(HttpServletRequest request) {
-      Enumeration<String> paramNames = request.getParameterNames();
-      Map<String, Object> filters = new TreeMap();
-      while(paramNames != null && paramNames.hasMoreElements()) {
-         String paramName = (String)paramNames.nextElement();
-         String[] values = request.getParameterValues(paramName);
-         if (values != null && values.length != 0) {
-            if (values.length > 1) {
-               filters.put(paramName, values);
-            } else {
-               filters.put(paramName, values[0]);
-            }
-         }
-      }
-      if(!filters.containsKey("pageNum")) {
-         filters.put("pageNum", 1);
-      }
-      if(!filters.containsKey("pageSize")) {
-         filters.put("pageSize", 10);
-      }
-
-      return filters;
    }
 
    @RequestMapping("/create")
