@@ -37,5 +37,25 @@
         </div>
     </div>
 </div>
+<!--验证表单输入-->
+<script type="text/javascript">
+    $(function(){
+        $('#ec').validate({
+            rules:{
+                roleName:"required",
+                description:"required"
+            },
+            messages:{
+                roleName:"角色必须输入",
+                description:"描述必须输入"
+            },
+            submitHandler: function (form) {
+                //:submit 选择器  作用是选择所有的submit控件 并将属性不可用
+                $(form).find(":submit").attr("disabled", true).text("正在提交...");
+                form.submit();
+            }
+        });
+    });
+</script>
 </body>
 </html>
