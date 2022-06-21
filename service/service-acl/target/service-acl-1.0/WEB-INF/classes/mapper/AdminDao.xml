@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.dao.AdminDao">
+
+    <resultMap id="Admin" type="Admin">
+        <id property="id" column="id"></id>
+        <result property="id" column="id"></result>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="headUrl" column="head_url"></result>
+        <result property="description" column="description"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="isDeleted" column="is_deleted"></result>
+    </resultMap>
+    <!--复用查询的字段-->
+    <sql id="column">
+       select id,username,password,name,phone,head_url,description,create_time,update_time,is_deleted
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into acl_admin(username,password,name,phone,head_url,description)
+        values(#{username},#{password},#{name},#{phone},#{headUrl},#{description})
+    </insert>
+
+    <select id="getById" resultMap="Admin">
+        <include refid="column"></include>
+        from acl_admin
+        where
+        id = #{id} and is_deleted=0
+    </select>
+<!--更新功能-->
+    <update id="update" >
+
+        username,password,name,phone,head_url,description
+        update acl_admin set
+        <if test="username != null and username != ''">
+            username = #{username} ,
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password} ,
+        </if>
+        <if test="name != null and name != ''">
+            name = #{name} ,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone} ,
+        </if>
+        <if test="head_url != null and head_url != ''">
+            head_url = #{head_url} ,
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description} ,
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+<!--软删除模块 修改表的is_deleted字段 0：表示正常 1：表示被删除-->
+    <update id="delete">
+        update acl_admin set
+	        update_time = now() ,
+	        is_deleted = 1
+        where
+        	id = #{id}
+    </update>
+
+    <!--    分页-->
+    <sql id="where">
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like concat('%',#{phone},'%')
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+    </sql>
+
+    <select id="findPage" resultMap="Admin">
+        <include refid="column"/>
+        from acl_admin
+        <include refid="where"/>
+        order by id desc
+    </select>
+</mapper>

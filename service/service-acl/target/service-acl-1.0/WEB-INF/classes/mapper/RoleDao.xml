@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.dao.RoleDao">
+
+    <!--复用查询的字段-->
+    <sql id="column">
+        select id,role_name,role_code,description,create_time,update_time,is_deleted
+    </sql>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="Role">
+        <include refid="column"></include>
+        from acl_role where is_deleted = 0
+    </select>
+
+<!--    保存功能：bean对象保存前id属性是没有值的。保存后，执行了insert语句，数据库分配主键值
+                mytabis框架会获取数据库分配的主键值，并赋值给bean对象的id属性，这个过程称为逐渐回填
+          -->
+    <insert id="insert" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+        insert into acl_role(role_name,role_code,description) values(#{roleName},#{roleCode},#{description})
+    </insert>
+
+    <select id="getById" parameterType="long" resultType="Role">
+        <include refid="column"></include>
+        from acl_role
+        where
+        id = #{id} and is_deleted=0
+    </select>
+<!--更新功能-->
+    <update id="update" >
+        update acl_role set
+        <if test="roleName != null and roleName != ''">
+            role_name = #{roleName} ,
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            role_code = #{roleCode} ,
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description} ,
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+<!--软删除模块 修改表的is_deleted字段 0：表示正常 1：表示被删除-->
+    <update id="delete">
+        update acl_role set
+	        update_time = now() ,
+	        is_deleted = 1
+        where
+        	id = #{id}
+    </update>
+
+<!--    分页-->
+    <sql id="findPageWhere">
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%',#{roleName},'%')
+            </if>
+            and is_deleted = 0
+        </where>
+    </sql>
+
+    <select id="findPage" parameterType="map" resultType="Role">
+        <include refid="column"/>
+        from acl_role
+        <include refid="findPageWhere"/>
+        order by id desc
+    </select>
+</mapper>

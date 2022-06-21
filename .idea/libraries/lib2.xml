@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="lib2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/service-acl/target/classes/static/plugins/fullavatareditor/jsp/WEB-INF/lib/commons-fileupload-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/service-acl/target/classes/static/plugins/fullavatareditor/jsp/WEB-INF/lib/fastjson-1.1.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
