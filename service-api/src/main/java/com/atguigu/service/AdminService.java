@@ -3,6 +3,8 @@ package com.atguigu.service;
 import com.atguigu.base.BaseService;
 import com.atguigu.entity.Admin;
 
-public interface AdminService extends BaseService<Admin> {
+import java.util.List;
 
+public interface AdminService extends BaseService<Admin> {
+    List<Admin> findAll();
 }

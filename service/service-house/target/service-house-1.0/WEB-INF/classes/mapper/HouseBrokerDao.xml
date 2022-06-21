@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.dao.HouseBrokerDao">
+
+    <resultMap id="HouseBroker" type="HouseBroker">
+        <result property="id" column="id"/>
+        <result property="houseId" column="house_id"/>
+        <result property="brokerId" column="broker_id"/>
+        <result property="brokerName" column="broker_name"/>
+        <result property="brokerHeadUrl" column="broker_head_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+     id,house_id,broker_id,broker_name,broker_head_url,create_time,update_time,is_deleted
+   </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into hse_house_broker (
+           id ,
+           house_id ,
+           broker_id ,
+           broker_name ,
+           broker_head_url
+        ) values (
+           #{id} ,
+           #{houseId} ,
+           #{brokerId} ,
+           #{brokerName} ,
+           #{brokerHeadUrl}
+        )
+   </insert>
+
+    <update id="update" >
+        update hse_house_broker set
+        <if test="houseId != null and houseId != ''">
+            house_id = #{houseId} ,
+        </if>
+        <if test="brokerId != null and brokerId != ''">
+            broker_id = #{brokerId} ,
+        </if>
+        <if test="brokerName != null and brokerName != ''">
+            broker_name = #{brokerName} ,
+        </if>
+        <if test="brokerHeadUrl != null and brokerHeadUrl != ''">
+            broker_head_url = #{brokerHeadUrl} ,
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+
+    <update id="delete">
+        update hse_house_broker set
+         update_time = now() ,
+         is_deleted = 1
+        where
+           id = #{id}
+    </update>
+
+    <select id="getById" resultMap="HouseBroker">
+        select <include refid="columns" />
+        from hse_house_broker
+        where
+        id = #{id}
+    </select>
+
+    <select id="findListByHouseId" resultMap="HouseBroker">
+        select <include refid="columns" />
+        from hse_house_broker
+        where
+        house_id = #{houseId}
+        and is_deleted = 0
+    </select>
+
+</mapper>

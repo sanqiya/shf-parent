@@ -98,4 +98,11 @@
         <include refid="where"/>
         order by id desc
     </select>
+
+    <select id="findAll" resultMap="Admin">
+        select <include refid="column" />
+        from acl_admin
+        where
+        is_deleted = 0
+    </select>
 </mapper>
