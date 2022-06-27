@@ -52,15 +52,15 @@ public class Admin extends BaseEntity {
 	public String getPhone() {
 		return this.phone;
 	}
-	
-	public void setHeadUrl(String value) {
-		this.headUrl = value;
-	}
-	
+
 	public String getHeadUrl() {
-		return this.headUrl;
+		return headUrl;
 	}
-	
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
+
 	public void setDescription(String value) {
 		this.description = value;
 	}

@@ -3,6 +3,10 @@ package com.atguigu.vo;
 
 import java.io.Serializable;
 
+/**
+ * 用来封装搜索参数
+ */
+
 public class HouseQueryVo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

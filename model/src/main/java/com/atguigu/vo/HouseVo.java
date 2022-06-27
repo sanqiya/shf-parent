@@ -7,6 +7,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 封装房源页面显示属性    将多张表的属性组装到一起
+ */
 public class HouseVo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

@@ -183,4 +183,65 @@ id,community_id,name,description,total_price,unit_price,build_area,inside_area,h
         order by id desc
     </select>
 
+    <select id="findListPage" resultType="com.atguigu.vo.HouseVo" parameterType="com.atguigu.vo.HouseQueryVo">
+        select
+        cmty.name as communityName,
+        hse.id as id,
+        hse.name as name,
+        hse.build_area as buildArea,
+        hse.unit_price as unitPrice,
+        hse.total_price as totalPrice,
+        hse.house_type_id as houseTypeId,
+        hse.floor_id as floorId,
+        hse.direction_id as directionId,
+        hse.default_image_url as defaultImageUrl,
+        hse.create_time as createTime
+        from hse_house hse
+        left join hse_community cmty on cmty.id = hse.community_id
+        <where>
+            <if test="vo.keyword != null and vo.keyword != ''">
+                and hse.name like CONCAT('%',#{vo.keyword},'%')
+            </if>
+            <if test="vo.areaId != null and vo.areaId != ''">
+                and cmty.area_id = #{vo.areaId}
+            </if>
+            <if test="vo.totalPrice != null and vo.totalPrice != ''">
+                and cmty.totalPrice = #{vo.totalPrice}
+            </if>
+            <if test="vo.plateId != null and vo.plateId != ''">
+                and cmty.plate_id = #{vo.plateId}
+            </if>
+            <if test="vo.houseTypeId != null and vo.houseTypeId != ''">
+                and hse.house_type_id = #{vo.houseTypeId}
+            </if>
+            <if test="vo.floorId != null and vo.floorId != ''">
+                and hse.floor_id = #{vo.floorId}
+            </if>
+            <if test="vo.buildStructureId != null and vo.buildStructureId != ''">
+                and hse.build_structure_id = #{vo.buildStructureId}
+            </if>
+            <if test="vo.directionId != null and vo.directionId != ''">
+                and hse.direction_id = #{vo.directionId}
+            </if>
+            <if test="vo.decorationId != null and vo.decorationId != ''">
+                and hse.decoration_id = #{vo.decorationId}
+            </if>
+            <if test="vo.houseUseId != null and vo.houseUseId != ''">
+                and hse.house_use_id = #{vo.houseUseId}
+            </if>
+            and hse.status = 1
+            and hse.is_deleted = 0
+            and cmty.is_deleted = 0
+        </where>
+        <if test="vo.defaultSort == 1">
+            order by hse.id desc
+        </if>
+        <if test="vo.priceSort == 1">
+            order by hse.total_price desc
+        </if>
+        <if test="vo.timeSort == 1">
+            order by hse.create_time desc
+        </if>
+    </select>
+
 </mapper>

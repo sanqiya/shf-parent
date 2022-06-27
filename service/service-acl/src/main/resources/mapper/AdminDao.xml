@@ -36,8 +36,6 @@
     </select>
 <!--更新功能-->
     <update id="update" >
-
-        username,password,name,phone,head_url,description
         update acl_admin set
         <if test="username != null and username != ''">
             username = #{username} ,
@@ -51,8 +49,8 @@
         <if test="phone != null and phone != ''">
             phone = #{phone} ,
         </if>
-        <if test="head_url != null and head_url != ''">
-            head_url = #{head_url} ,
+        <if test="headUrl != null and headUrl != ''">
+            head_url = #{headUrl} ,
         </if>
         <if test="description != null and description != ''">
             description = #{description} ,
@@ -100,9 +98,9 @@
     </select>
 
     <select id="findAll" resultMap="Admin">
-        select <include refid="column" />
+        <include refid="column" />
         from acl_admin
-        where
-        is_deleted = 0
+        where is_deleted = 0
+        order by id desc
     </select>
 </mapper>

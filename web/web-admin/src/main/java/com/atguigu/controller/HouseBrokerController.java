@@ -27,7 +27,6 @@ public class HouseBrokerController extends BaseController {
    private AdminService adminService;
 
    private final static String LIST_ACTION = "redirect:/house/";
-   
    private final static String PAGE_SHOW = "houseBroker/show";
    private final static String PAGE_CREATE = "houseBroker/create";
    private final static String PAGE_EDIT = "houseBroker/edit";

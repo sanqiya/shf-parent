@@ -6,8 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="service-house" />
+        <module name="service-user" />
         <module name="common-util" />
+        <module name="web-front" />
+        <module name="service-house" />
         <module name="web-admin" />
         <module name="model" />
         <module name="service-api" />

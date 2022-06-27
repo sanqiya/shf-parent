@@ -61,6 +61,22 @@
                         <div class="col-sm-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
+                                    <h3>首页默认图片信息</h3>
+                                    <a class="btn btn-xs btn-primary" id="upload0">上传首页默认图片</a>
+                                </div>
+                                <div class="ibox-content">
+                                    <a th:each="item,it : ${houseImage0List}" class="fancybox" >
+                                        <img alt="image" th:src="${item.imageUrl}"/>
+                                        <a th:attr="data-id=${item.id}" class="deleteImages">删除</a>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
                                     <h3>房源图片信息</h3>
                                     <a class="btn btn-xs btn-primary" id="upload1">上传房源图片</a>
                                 </div>
@@ -167,6 +183,19 @@
 </div>
 <script type="text/javascript">
     $(function(){
+        $("#upload0").on("click",function(){
+            opt.openWin('/houseImage/uploadShow/[[${house.id}]]/0','上传首页默认图片',580,430);
+        });
+        $("#upload1").on("click",function(){
+            opt.openWin('/houseImage/uploadShow/[[${house.id}]]/1','上传房源图片',580,430);
+        });
+        $("#upload2").on("click",function(){
+            opt.openWin('/houseImage/uploadShow/[[${house.id}]]/2','上传房产图片',580,430);
+        });
+        $(".deleteImages").on("click",function(){
+            var id = $(this).attr("data-id");
+            opt.confirm('/houseImage/delete/[[${house.id}]]/'+id);
+        });
         $(".createBroker").on("click",function () {
             opt.openWin('/houseBroker/create?houseId=[[${house.id}]]','新增经纪人',630,300)
         });
